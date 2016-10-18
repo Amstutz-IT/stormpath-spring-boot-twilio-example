@@ -60,7 +60,7 @@ public class PostLoginHandler{
             String ipAddress = getIPAddress(request);
 
             if (loginIPs.contains(ipAddress)) {
-                // they've already logged in from this location
+                // user has already logged in from this IP address
                 log.info("{} has already logged in from: {}. No message sent.", account.getEmail(), ipAddress);
             } else {
                 boolean messageSent = TwilioLoginMessageBuilder
@@ -71,7 +71,7 @@ public class PostLoginHandler{
                     .setToNumber(toNumber)
                     .send("New login for: " + account.getEmail() + ", from: " + ipAddress);
 
-                // only save the ip address if the twilio message was successfully sent
+                // only save the IP address if the twilio message was successfully sent
                 if (messageSent) {
                     saveLoginIPs(ipAddress, loginIPs, customData);
                 }
@@ -92,7 +92,7 @@ public class PostLoginHandler{
     }
 
     private List<String> getLoginIPs(CustomData customData) {
-        // check to see if the user has accessed the app from this location before
+        // check to see if the user has accessed the app from this IP before
         List<String> loginIPs = (List<String>) customData.get(loginIPsIdentifier);
         if (loginIPs == null) {
             loginIPs = new ArrayList<>();
