@@ -47,6 +47,7 @@ Add boxfuse specific properties in `application-boxfuse.properties`
     
     boxfuse run -envvars.STORMPATH_API_KEY_ID=1234abc... \
         -envvars.STORMPATH_API_KEY_SECRET=efg.... \
+        -envvars.STORMPATH_CUSTOMDATA_LOGINIPS_IDENTIFIER=loggedLoginIPs \
         -envvars.TWILIO_ACCOUNT_SID=ABCD... \
         -envvars.TWILIO_AUTH_TOKEN=2a2b... \
         -envvars.TWILIO_FROM_NUMBER=+1...
