@@ -25,4 +25,29 @@ the defaultLoginPostHandler will be registered and executed.
      java -jar target/stormpath-sdk-examples-spring-boot-web-0.1.0-SNAPSHOT.jar -Dtwilio.account.sid=theSID -Dtwilio.auth.token=theTOKEN -Dtwilio.from.number=theNumber
      
      firefox http://localhost:8080/
-     
+
+# Setup HTTPS with Boxfuse 
+
+    keytool -genkey -alias tomcat -keyalg RSA -keysize 2048 -keystore keystore.jks -validity 3650
+    
+    mv keystore.jks src/main/resources/
+
+Add boxfuse specific properties in `application-boxfuse.properties`
+
+    server.port=443
+    server.ssl.enabled=true
+    server.ssl.key-store=classpath:keystore.jks
+    server.ssl.key-store-password=myS3cr3tPwd
+
+# Deploy to AWS
+
+    mvn clean package
+    
+    boxfuse create stormpath-twilio -logs.type=cloudwatch-logs
+    
+    boxfuse run -envvars.STORMPATH_API_KEY_ID=1234abc... \
+        -envvars.STORMPATH_API_KEY_SECRET=efg.... \
+        -envvars.TWILIO_ACCOUNT_SID=ABCD... \
+        -envvars.TWILIO_AUTH_TOKEN=2a2b... \
+        -envvars.TWILIO_FROM_NUMBER=+1...
+    
